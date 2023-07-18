@@ -7,7 +7,7 @@
 
 struct Bank {
     private let bankers: [Bankerable]
-    private var bankQueue: CustomerQueue<Customer> = CustomerQueue()
+    private var bankQueue: CustomerQueue<Customerable> = CustomerQueue()
     private var finishedCustomerCount: Int = .zero
     private var totalWorkTime: Double = .zero
     
@@ -15,14 +15,14 @@ struct Bank {
         self.bankers = bankers
     }
     
-    mutating private func lineUp(_ customers: inout [Customer]) {
+    mutating private func lineUp(_ customers: inout [Customerable]) {
         for number in 0..<customers.count {
             customers[number].receiveQueueNumber(queueNumber: number + 1)
             bankQueue.enqueue(customers[number])
         }
     }
     
-    mutating func startBankService(_ customers: inout [Customer]) {
+    mutating func startBankService(_ customers: inout [Customerable]) {
         lineUp(&customers)
         
         while !bankQueue.isEmpty {

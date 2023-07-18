@@ -7,7 +7,7 @@
 import Foundation
 
 protocol Bankerable {
-    func work(for customer: Customer)
+    func work(for customer: Customerable)
     func notifyWorkTime() -> Double
 }
 
@@ -18,7 +18,7 @@ struct Banker: Bankerable, BankTaskable {
         self.task = task
     }
     
-    func work(for customer: Customer) {
+    func work(for customer: Customerable) {
         guard let queueNumber = customer.queueNumber else {
             return
         }

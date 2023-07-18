@@ -33,6 +33,16 @@ struct BankManager {
         bank.startBankService(&customers)
     }
     
+    private func createRandomCustomerTask() -> BankTask {
+        let taskNumber = Int.random(in: 1...2)
+
+        guard let task = BankTask(taskNumber) else {
+            return BankTask.deposit //추후 에러처리
+        }
+        
+        return task
+    }
+    
     private func createBankers() -> [Banker] {
         let bankers = [Banker(task: .deposit),
                        Banker(task: .deposit),
@@ -42,9 +52,15 @@ struct BankManager {
     }
     
     private func createCustomers() -> [Customer] {
-        let customerNumbers: Int = Int.random(in: 10...30)
+        let customerNumbers = Int.random(in: 10...30)
+        var customers = [Customer]()
         
-        return Array(repeating: Customer(), count: customerNumbers)
+        for _ in 0...customerNumbers {
+            let customerTask = createRandomCustomerTask()
+            customers.append(Customer(task: customerTask))
+        }
+        
+        return customers
     }
 }
 
