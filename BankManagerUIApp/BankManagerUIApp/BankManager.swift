@@ -43,7 +43,7 @@ struct BankManager {
         return task
     }
     
-    private func createBankers() -> [Banker] {
+    private func createBankers() -> [Bankerable] {
         let bankers = [Banker(task: .deposit),
                        Banker(task: .deposit),
                        Banker(task: .loans)]
@@ -51,7 +51,7 @@ struct BankManager {
         return bankers
     }
     
-    private func createCustomers() -> [Customer] {
+    private func createCustomers() -> [Customerable] {
         let customerNumbers = Int.random(in: 10...30)
         var customers = [Customer]()
         
