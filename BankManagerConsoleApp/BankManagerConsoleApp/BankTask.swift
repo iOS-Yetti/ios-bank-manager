@@ -9,6 +9,21 @@ enum BankTask {
     case deposit
     case loans
     
+    init?(_ classificationNumber: Int) {
+        switch classificationNumber {
+        case .deposit:
+            self = .deposit
+        case .loans:
+            self = .loans
+        default:
+            return nil
+        }
+    }
+    
+    static func ~=(lhs: Self, rhs: Int) -> Bool {
+        return lhs.classificationNumberValue == rhs
+    }
+    
     var time: Double {
         switch self {
         case .deposit:
@@ -24,6 +39,15 @@ enum BankTask {
             return "예금"
         case .loans:
             return "대출"
+        }
+    }
+    
+    private var classificationNumberValue: Int {
+        switch self {
+        case .deposit:
+            return 1
+        case .loans:
+            return 2
         }
     }
 }
