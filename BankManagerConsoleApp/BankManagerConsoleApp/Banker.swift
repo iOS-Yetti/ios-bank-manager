@@ -7,14 +7,12 @@
 import Foundation
 
 protocol Bankerable {
-    var task: BankTask { get }
-    
-    mutating func work(for customer: Customer)
+    func work(for customer: Customer)
     func notifyWorkTime() -> Double
 }
 
-struct Banker: Bankerable {
-    var task: BankTask
+struct Banker: Bankerable, BankTaskable {
+    private(set) var task: BankTask
     
     init(task: BankTask) {
         self.task = task

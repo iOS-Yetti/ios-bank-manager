@@ -15,6 +15,7 @@
 		5D4FAA3B2A60111D001FA74A /* Bank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4FAA3A2A60111D001FA74A /* Bank.swift */; };
 		5D4FAA3D2A60113A001FA74A /* Banker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4FAA3C2A60113A001FA74A /* Banker.swift */; };
 		5D4FAA3F2A66D3B9001FA74A /* BankTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4FAA3E2A66D3B9001FA74A /* BankTask.swift */; };
+		5D4FAA412A66F090001FA74A /* BankTaskable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4FAA402A66F090001FA74A /* BankTaskable.swift */; };
 		C7694E7A259C3EC00053667F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7694E79259C3EC00053667F /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		5D4FAA3A2A60111D001FA74A /* Bank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bank.swift; sourceTree = "<group>"; };
 		5D4FAA3C2A60113A001FA74A /* Banker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banker.swift; sourceTree = "<group>"; };
 		5D4FAA3E2A66D3B9001FA74A /* BankTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankTask.swift; sourceTree = "<group>"; };
+		5D4FAA402A66F090001FA74A /* BankTaskable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankTaskable.swift; sourceTree = "<group>"; };
 		5D9B05792A5BE957001AB9ED /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C7694E76259C3EC00053667F /* BankManagerConsoleApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BankManagerConsoleApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7694E79259C3EC00053667F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				3B94BC022A5D40B000ED83C9 /* BankManager.swift */,
 				5D4FAA3A2A60111D001FA74A /* Bank.swift */,
 				5D4FAA3C2A60113A001FA74A /* Banker.swift */,
+				5D4FAA402A66F090001FA74A /* BankTaskable.swift */,
 				5D4FAA3E2A66D3B9001FA74A /* BankTask.swift */,
 				5D4FAA382A60110D001FA74A /* Customer.swift */,
 				5D4FAA322A6010B1001FA74A /* CustomerQueue.swift */,
@@ -173,6 +176,7 @@
 				5D4FAA372A6010B1001FA74A /* LinkedList.swift in Sources */,
 				5D4FAA392A60110D001FA74A /* Customer.swift in Sources */,
 				5D4FAA352A6010B1001FA74A /* CustomerQueue.swift in Sources */,
+				5D4FAA412A66F090001FA74A /* BankTaskable.swift in Sources */,
 				5D4FAA3F2A66D3B9001FA74A /* BankTask.swift in Sources */,
 				5D4FAA362A6010B1001FA74A /* Node.swift in Sources */,
 				5D4FAA3B2A60111D001FA74A /* Bank.swift in Sources */,

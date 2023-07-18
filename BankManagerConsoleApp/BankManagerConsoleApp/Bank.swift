@@ -6,12 +6,12 @@
 //
 
 struct Bank {
-    private let bankers: [Banker]
+    private let bankers: [Bankerable]
     private var bankQueue: CustomerQueue<Customer> = CustomerQueue()
     private var finishedCustomerCount: Int = .zero
     private var totalWorkTime: Double = .zero
     
-    init(bankers: [Banker]) {
+    init(bankers: [Bankerable]) {
         self.bankers = bankers
     }
     
@@ -42,7 +42,7 @@ struct Bank {
         finishedCustomerCount += 1
     }
     
-    mutating private func checkWorkTime(from banker: Banker) {
+    mutating private func checkWorkTime(from banker: Bankerable) {
         totalWorkTime += banker.notifyWorkTime()
     }
     
