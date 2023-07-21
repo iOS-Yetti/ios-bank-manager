@@ -26,23 +26,14 @@ struct BankManager {
     }
     
     private func openBank() {
-        let bankers = createBankers()
-        var bank = Bank(bankers: bankers)
         guard var customers = try? createCustomers() else {
             return
         }
+        var bank = Bank(depositBankers: Banker(task: .deposit, semaphoreValue: 2),
+                        loanBankers: Banker(task: .loan, semaphoreValue: 1))
         
         bank.startBankService(&customers)
     }
-    
-    private func createBankers() -> [Banker] {
-        let bankers = [Banker(task: .deposit),
-                       Banker(task: .deposit),
-                       Banker(task: .loan)]
-        
-        return bankers
-    }
-    
     private func createCustomers() throws -> [Customer] {
         let customerNumbers = Int.random(in: 10...30)
         var customers = [Customer]()

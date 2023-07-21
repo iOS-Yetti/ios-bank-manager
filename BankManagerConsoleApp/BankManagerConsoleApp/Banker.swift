@@ -8,19 +8,27 @@ import Foundation
 
 struct Banker {
     private(set) var task: BankTask
-
-    init(task: BankTask) {
+    let semaphore: DispatchSemaphore
+    
+    init(task: BankTask,
+         semaphoreValue: Int) {
         self.task = task
+        self.semaphore = DispatchSemaphore(value: semaphoreValue)
     }
 
-    func work(for customer: Customer) {
-        guard let queueNumber = customer.queueNumber else {
-            return
+    func work(for customer: Customer, group: DispatchGroup) {
+        DispatchQueue.global().async(group: group) {
+            semaphore.wait()
+            
+            guard let queueNumber = customer.queueNumber else {
+                return
+            }
+            
+            print("\(queueNumber)번 \(task.korean)고객 업무 시작")
+            Thread.sleep(forTimeInterval: task.time)
+            print("\(queueNumber)번 \(task.korean)고객 업무 종료")
+            semaphore.signal()
         }
-
-        print("\(queueNumber)번 \(task.korean)고객 업무 시작")
-        Thread.sleep(forTimeInterval: task.time)
-        print("\(queueNumber)번 \(task.korean)고객 업무 종료")
     }
 
     func notifyWorkTime() -> Double {

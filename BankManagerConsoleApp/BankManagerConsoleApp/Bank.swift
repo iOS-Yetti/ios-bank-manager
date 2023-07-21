@@ -6,64 +6,51 @@
 //
 import Foundation
 
-class Bank {
-    private let bankers: [Banker]
-    private var depositQueue: CustomerQueue<Customer> = CustomerQueue()
-    private var loanQueue: CustomerQueue<Customer> = CustomerQueue()
+struct Bank {
+    private let depositBankers: Banker
+    private let loanBankers: Banker
+    private var bankQueue: CustomerQueue<Customer> = CustomerQueue()
     private var finishedCustomerCount: Int = .zero
     private var totalWorkTime: Double = .zero
-    private let group = DispatchGroup()
+    private let dispatchGroup = DispatchGroup()
     
-    init(bankers: [Banker]) {
-        self.bankers = bankers
+    init(depositBankers: Banker, loanBankers: Banker) {
+        self.depositBankers = depositBankers
+        self.loanBankers = loanBankers
     }
     
-    private func lineUp(_ customers: inout [Customer]) {
+    mutating private func lineUp(_ customers: inout [Customer]) {
         for number in 0..<customers.count {
             customers[number].receiveQueueNumber(queueNumber: number + 1)
-            
-            switch customers[number].task {
-            case .deposit:
-                depositQueue.enqueue(customers[number])
-            case .loan:
-                loanQueue.enqueue(customers[number])
-            }
+            bankQueue.enqueue(customers[number])
         }
     }
     
-    func startBankService(_ customers: inout [Customer]) {
+    mutating func startBankService(_ customers: inout [Customer]) {
         lineUp(&customers)
         
-        for i in 0..<bankers.count {
-            var queue: CustomerQueue<Customer>
-            
-            switch bankers[i].task {
+        while let currentCustomer = bankQueue.dequeue() {
+            switch currentCustomer.task {
             case .deposit:
-                queue = depositQueue
+                depositBankers.work(for: currentCustomer,
+                                    group: dispatchGroup)
             case .loan:
-                queue = loanQueue
+                loanBankers.work(for: currentCustomer,
+                                 group: dispatchGroup)
             }
             
-            DispatchQueue.global().async(group: group) { [self] in
-                while let customer = queue.dequeue() {
-                    bankers[i].work(for: customer)
-                    countFinishedCustomer()
-                    checkWorkTime(from: bankers[i])
-                }
-            }
         }
-        
-        group.wait()
+        dispatchGroup.wait()
         workFinish()
     }
-    
-    private func countFinishedCustomer() {
-        finishedCustomerCount += 1
-    }
-    
-    private func checkWorkTime(from banker: Banker) {
-        totalWorkTime += banker.notifyWorkTime()
-    }
+//      고객 수 및 총 업무시간 미 구현
+//    mutating private func countFinishedCustomer() {
+//        finishedCustomerCount += 1
+//    }
+//
+//    mutating private func checkWorkTime(from banker: Banker) {
+//        totalWorkTime += banker.notifyWorkTime()
+//    }
     
     private func workFinish() {
         let totalWorkTime = String(format: "%.2f", totalWorkTime)
