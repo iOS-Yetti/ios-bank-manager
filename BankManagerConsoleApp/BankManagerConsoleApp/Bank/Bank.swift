@@ -6,13 +6,13 @@
 //
 import Foundation
 
-class Bank {
+final class Bank {
     private let bankers: [Banker]
-    private let group = DispatchGroup()
-    private var depositQueue: CustomerQueue<Customer> = CustomerQueue()
-    private var loanQueue: CustomerQueue<Customer> = CustomerQueue()
+    private let depositQueue: CustomerQueue<Customer> = CustomerQueue()
+    private let loanQueue: CustomerQueue<Customer> = CustomerQueue()
     private var finishedCustomerCount: Int = .zero
     private var totalWorkTime: Double = .zero
+//    private let semaphore = DispatchSemaphore(value: 1) //스레드 경쟁상태?에 대해 고민해봐야할듯
     
     init(bankers: [Banker]) {
         self.bankers = bankers
@@ -32,6 +32,8 @@ class Bank {
     }
     
     func startBankService(_ customers: inout [Customer]) {
+        let group = DispatchGroup()
+        
         lineUp(&customers)
         
         for i in 0..<bankers.count {
@@ -44,12 +46,26 @@ class Bank {
                 queue = loanQueue
             }
             
-            DispatchQueue.global().async(group: group) { [self] in
-                while let customer = queue.dequeue() {
-                    bankers[i].work(for: customer)
-                    countFinishedCustomer()
-                    checkWorkTime(from: bankers[i])
+            DispatchQueue.global().async(group: group) { [weak self] in
+                guard let banker = self?.bankers[i] else {
+                    return
                 }
+                
+                while let customer = queue.dequeue() {
+                    banker.work(for: customer)
+                    self?.countFinishedCustomer()
+                    self?.checkWorkTime(from: banker)
+                }
+                
+//                while !queue.isEmpty {
+//                    self?.semaphore.wait()
+//                    if let customer = queue.dequeue() {
+//                        banker.work(for: customer)
+//                        self?.countFinishedCustomer()
+//                        self?.checkWorkTime(from: banker)
+//                    }
+//                    self?.semaphore.signal()
+//                }
             }
         }
         
